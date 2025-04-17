@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 
 """
-This file ingests data from the openexchangerates API and inserts into a source table
+This file ingests fx rates from the https://openexchangerates.org/ free API and inserts into a source table
 """
 
 logging.basicConfig(level=logging.INFO)
@@ -25,7 +25,7 @@ def get_API_KEY():
 
 def fetch_and_store_raw_rates():
     """
-    1. Fetches fx rates from the website
+    1. Fetches fx rates from the https://openexchangerates.org/
     2. Creates a new table if it does not exist
     3. Inserts the fx rates data into the table
     :return:
@@ -39,6 +39,9 @@ def fetch_and_store_raw_rates():
         rates = data.get("rates")
         if not rates:
             raise ValueError("Missing 'rates' in API response.")
+
+        if "CAD" not in rates:
+            raise ValueError("CAD rate not found in response.")
 
         # Transform JSON to rows suitable for DB
         rows = [(data["timestamp"], currency, rate) for currency, rate in rates.items()]
