@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: fx_rates_cad_base
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ currency, fx_date ]
+    columns:
+      - name: fx_date
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_to_exist
+      - name: currency
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_value_lengths_to_equal:
+              value: 3
+      - name: cad_rate
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0

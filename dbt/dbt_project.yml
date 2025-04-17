@@ -1,0 +1,16 @@
+name: fx_project
+version: 1.0.0
+config-version: 2
+
+profile: fx_project
+
+model-paths: [ "models"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules"]
+
+models:
+  fx_project:
+    staging:
+      materialized: view
+    marts:
+      materialized: incremental

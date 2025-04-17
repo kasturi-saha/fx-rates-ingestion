@@ -1,0 +1,6 @@
+version: 2
+sources:
+  - name: raw_fx_rates_usd_base
+    schema: main
+    tables:
+      - name: raw_fx_rates_usd_base
