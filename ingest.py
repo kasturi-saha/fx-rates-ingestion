@@ -18,7 +18,7 @@ def get_API_KEY():
     """
     api_key = os.getenv("API_KEY")
     if not api_key:
-        logging.error("Missing FX_API_KEY environment variable.")
+        logging.error("Missing API_KEY environment variable.")
         return
     return api_key
 
