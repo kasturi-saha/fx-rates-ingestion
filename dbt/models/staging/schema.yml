@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: fx_rates_cad_base
+  - name: stg_raw_fx_rates_usd_base
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ currency, fx_date ]
@@ -18,15 +18,23 @@ models:
         tests:
           - not_null
           - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_value_lengths_to_equal:
-              value: 3
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: varchar
-      - name: cad_rate
+          - dbt_expectations.expect_column_value_lengths_to_equal:
+              value: 3
+      - name: rate
         tests:
           - not_null
           - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: double
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      - name: ts
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp with time zone
+          - dbt_utils.expression_is_true:
+              expression: "{{ column_name }} <= now()"
