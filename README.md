@@ -25,8 +25,11 @@ This project ingests foreign exchange (FX) rate data using a **Python** script a
 
 4. **Testing (dbt):**
    - Data quality tests are added to:
+     - Validate columns are not null.
+     - Validate column values match the column type.
      - Ensure `currency` codes are 3 characters.
-     - Validate `rate` is not null and positive.
+     - Validate `rate` is positive.
+     - Validate the `date` or `timestamp` is less than or equal to current date or timestamp respectively.
      - Ensure uniqueness of `(fx_date, currency)` in the final model.
 
 ---
